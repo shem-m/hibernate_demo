@@ -54,7 +54,9 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> findAll() {
-        List<User> users = (List<User>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("FROM " + User.class.getName()).list();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<User> users = (List<User>) session.createQuery("FROM " + User.class.getName()).list();
+        session.close();
         return users;
     }
 }
