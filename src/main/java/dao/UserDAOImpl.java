@@ -10,7 +10,10 @@ import java.util.List;
 public class UserDAOImpl {
 
     public User findById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(User.class, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        User user = session.get(User.class, id);
+        session.close();
+        return user;
     }
 
     public void save(User user) {
@@ -38,12 +41,16 @@ public class UserDAOImpl {
     }
 
     public Auto findAutoById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Auto.class, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Auto auto = session.get(Auto.class, id);
+        session.close();
+        return auto;
     }
 
     public List<User> findAll() {
-        List<User> users = (List<User>)  HibernateSessionFactoryUtil
-                .getSessionFactory().openSession().createQuery("From User").list();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<User> users = session.createQuery("From User").list();
+        session.close();
         return users;
     }
 }
